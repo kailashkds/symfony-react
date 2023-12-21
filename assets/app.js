@@ -7,12 +7,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/app.scss';
-
-import { IndexPage } from "./pages/index/page";
 import { createRoot } from "react-dom/client";
+import App from "../react/App";
 
 const rootNode = createRoot(
     document.getElementById('app')
 );
 
-rootNode.render(<IndexPage />,)
+rootNode.render(<App />,)

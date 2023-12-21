@@ -5,7 +5,7 @@ timestamp()
 {
  date +"%Y-%m-%d %T"
 }
-
+composer install
 runConsoleSymfonyCommand () {
     echo "$(timestamp):[run] php bin/console $1"
     output=`php bin/console $1`
