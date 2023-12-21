@@ -27,6 +27,8 @@ else
 fi
 
 runConsoleSymfonyCommand "cache:clear"
-
+runConsoleSymfonyCommand "d:m:m -n"
+yarn install
+yarn encore dev
 echo "$(timestamp):[run] Running supervisord";
 /usr/bin/supervisord -c ./docker/config/supervisord.conf
