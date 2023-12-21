@@ -27,6 +27,7 @@ else
 fi
 
 runConsoleSymfonyCommand "cache:clear"
+runConsoleSymfonyCommand "lexik:jwt:generate-keypair --skip-if-exists"
 runConsoleSymfonyCommand "d:m:m -n"
 yarn install
 yarn encore dev
