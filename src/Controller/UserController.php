@@ -21,12 +21,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
-    private $userService;
     public function __construct(
-        UserService $userService
+        private UserService $userService
     )
     {
-        $this->userService = $userService;
     }
 
     /**

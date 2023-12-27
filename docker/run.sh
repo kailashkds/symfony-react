@@ -1,5 +1,17 @@
 #!/bin/sh
+
 set -e
+
+grep -qxF '185.199.108.133 raw.githubusercontent.com' /etc/hosts || bash -c 'echo "185.199.108.133 raw.githubusercontent.com" >> /etc/hosts'
+
+# Check if .env file exists
+if [ -e .env ]; then
+    echo ".env file already exists. Doing nothing."
+else
+    # Copy .env.dist to .env
+    cp .env.dist .env
+    echo ".env file created by copying .env.dist."
+fi
 
 timestamp()
 {

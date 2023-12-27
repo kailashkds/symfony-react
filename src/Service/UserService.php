@@ -12,22 +12,15 @@ use Symfony\Component\Validator\Constraints\Uuid;
 
 class UserService
 {
-    private $entityManager;
-    private $passwordEncoder;
-    private $router;
-    private $parameterBag;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder,
-        UrlGeneratorInterface $router,
-        ParameterBagInterface  $parameterBag
+        private EntityManagerInterface $entityManager,
+        private UserPasswordEncoderInterface $passwordEncoder,
+        private UrlGeneratorInterface $router,
+        private ParameterBagInterface  $parameterBag,
+        private EmailService $emailService
     )
     {
-        $this->entityManager = $entityManager;
-        $this->passwordEncoder = $passwordEncoder;
-        $this->router = $router;
-        $this->parameterBag = $parameterBag;
     }
 
     public function createNewUser($formData){
@@ -39,7 +32,7 @@ class UserService
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-//        $this->emailService->sendEmail($user);
+        $this->emailService->sendEmail($user);
         return $user;
     }
 
