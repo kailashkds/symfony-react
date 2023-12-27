@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\FormType\CheckEmailType;
-use App\FormType\UserType;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,19 +40,24 @@ class UserController extends AbstractController
     /**
      * @Route("/create", name="user_create", methods={"POST"})
      */
-    public function create(Request $request): View
+    public function create(Request $request): Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+            $user = new User();
+            $form = $this->createForm(\App\FormType\UserType::class, $user);
+            $jsonContent = $request->getContent();
+            $jsonData = json_decode($jsonContent, true);
+            $form->submit($jsonData);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->userService->createNewUser($form->getData());
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($this->userService->getUserByEmail($jsonData['email'])){
+                    return $this->json(['response' => 'error', 'message' => 'Email already exist']);
+                }
+                $this->userService->createNewUser($jsonData);
+                return $this->json(['response' => 'success', 'message' => 'User created successfully']);
+            }
 
-        return View::create(
-           ['success' => false]
-        );
+        return $this->json(['response' => 'error', 'message' => 'An error occurred while creating the user']);
+
     }
 
     /**
@@ -71,5 +77,22 @@ class UserController extends AbstractController
             ]);
         }
         return $this->json(['error']);
+    }
+
+    /**
+     * @Route("/confirm/{token}", name="user_confirm")
+     */
+    public function confirmAccount(UserRepository $userRepository, $token,EntityManagerInterface $entityManager)
+    {
+        $user = $userRepository->findOneBy(['confirmationToken' => $token]);
+
+        if ($user) {
+            $user->setIsActive(true);
+            $user->setConfirmationToken(null);
+            $entityManager->flush();
+
+            return $this->json(['response' => 'success', 'message' => 'User is activated successfully']);
+        }
+        return $this->json(['response' => 'error', 'message' => 'An error occurred while creating the user']);
     }
 }

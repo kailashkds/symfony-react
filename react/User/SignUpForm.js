@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Grid } from '@mui/material';
-import {createUser} from "../Api";
+import {createUser, loginUser} from "../Api";
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const SignUpForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: '',
-        confirmPassword: '',
+        password: ''
     });
 
     const [isEmailUnique, setIsEmailUnique] = useState(false);
@@ -30,72 +32,67 @@ const SignUpForm = () => {
         });
 
         const result = await response.json();
+        console.log(result)
         setIsEmailUnique(result.isUnique);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        createUser(data)
+        const data = await createUser(formData);
+        navigate('/login');
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Typography component="h1" variant="h5">
-                Sign Up
-            </Typography>
-            <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Username"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Email Address"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            onBlur={handleEmailBlur}
-                            required
-                            error={isEmailUnique}
-                            helperText={isEmailUnique && 'This email is already taken.'}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Confirm Password"
-                            type="password"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                </Grid>
-                <Button type="submit" variant="contained" color="primary">
+        <>
+            <Container component="main" maxWidth="xs">
+                <Typography component="h1" variant="h5" style={{ marginBottom: '25px' }}>
                     Sign Up
-                </Button>
-            </form>
-        </Container>
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Email Address"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                onBlur={handleEmailBlur}
+                                required
+                                error={isEmailUnique}
+                                helperText={isEmailUnique && 'This email is already taken.'}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                label="Password"
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                        <Grid  item xs={12} style={{ marginTop : "10px" }}>
+                            <Button type="submit" variant="contained" color="primary" fullWidth>
+                                Sign Up
+                            </Button>
+                        </Grid>
+
+                        <Grid  item xs={12}>
+                            <Link to="/login" style={{ textDecoration: 'none' }}>
+                                <Button type="button" variant="contained" color="primary" fullWidth>
+                                    Login
+                                </Button>
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Container>
+        </>
     );
 };
 

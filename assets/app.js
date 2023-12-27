@@ -9,9 +9,14 @@ import ReactDOM from 'react-dom';
 import './styles/app.scss';
 import { createRoot } from "react-dom/client";
 import App from "../react/App";
+import {AuthProvider} from "../react/Auth/AuthContext";
+
 
 const rootNode = createRoot(
     document.getElementById('app')
 );
 
-rootNode.render(<App />,)
+rootNode.render(
+    <React.StrictMode>
+            <App />
+    </React.StrictMode>,)
