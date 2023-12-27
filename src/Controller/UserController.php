@@ -51,7 +51,7 @@ class UserController extends AbstractController
                     return $this->json(['response' => 'error', 'message' => 'Email already exist']);
                 }
                 $this->userService->createNewUser($jsonData);
-                return $this->json(['response' => 'success', 'message' => 'User created successfully']);
+                return $this->json(['response' => 'success', 'message' => 'Please check you mailbox for activation link..']);
             }
 
         return $this->json(['response' => 'error', 'message' => 'An error occurred while creating the user']);
@@ -75,22 +75,5 @@ class UserController extends AbstractController
             ]);
         }
         return $this->json(['error']);
-    }
-
-    /**
-     * @Route("/confirm/{token}", name="user_confirm")
-     */
-    public function confirmAccount(UserRepository $userRepository, $token,EntityManagerInterface $entityManager)
-    {
-        $user = $userRepository->findOneBy(['confirmationToken' => $token]);
-
-        if ($user) {
-            $user->setIsActive(true);
-            $user->setConfirmationToken(null);
-            $entityManager->flush();
-
-            return $this->json(['response' => 'success', 'message' => 'User is activated successfully']);
-        }
-        return $this->json(['response' => 'error', 'message' => 'An error occurred while creating the user']);
     }
 }

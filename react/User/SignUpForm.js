@@ -39,7 +39,6 @@ const SignUpForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = await createUser(formData);
-        navigate('/login');
     };
 
     return (

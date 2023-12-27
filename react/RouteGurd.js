@@ -4,6 +4,7 @@ import Notes from "./Notes/Notes";
 import React from 'react';
 import LoginForm from "./User/Login";
 import SignUpForm from "./User/SignUpForm";
+import EmailConfirmation from "./User/EmailConfirmation";
 
 
 const Routes = () => {
@@ -18,6 +19,10 @@ const Routes = () => {
             path: "/login",
             element: <LoginForm/>,
         },
+        {
+            path: "/confirmation/:token",
+            element: <EmailConfirmation/>,
+        }
     ];
 
     // Define routes accessible only to authenticated users
@@ -32,6 +37,10 @@ const Routes = () => {
         },{
             path: "/signup",
             element: <SignUpForm />,
+        },
+        {
+            path: "/confirmation/:token",
+            element: <EmailConfirmation/>,
         }
     ];
 

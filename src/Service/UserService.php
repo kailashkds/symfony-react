@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Constraints\Uuid;
 
 class UserService
 {
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserPasswordEncoderInterface $passwordEncoder,
@@ -47,21 +46,6 @@ class UserService
         $user->setPassword($encodedPassword);
         $confirmationToken = $this->generateConfirmationToken();
         $user->setConfirmationToken($confirmationToken);
-
-        $confirmationUrl = $this->router->generate('user_confirm', ['token' => $user->getConfirmationToken()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $emailContent = "Click the following link to confirm your account: $confirmationUrl";
-        $directoryPath = $this->parameterBag->get('kernel.project_dir') . '/var/email';
-
-        if (!file_exists($directoryPath) && !mkdir($directoryPath, 0777, true)) {
-            throw new \RuntimeException('Unable to create directory: ' . $directoryPath);
-        }
-
-        $filePath = $directoryPath . '/' . $user->getEmail() . '_confirmation.txt';
-
-        // Write content to the file
-        if (file_put_contents($filePath, $emailContent) === false) {
-            throw new \RuntimeException('Unable to write content to file: ' . $filePath);
-        }
     }
 
     public function generateConfirmationToken():string
