@@ -33,11 +33,11 @@ export const loginUser = async (payload) => {
         localStorage.setItem("token", token);
         setAuthToken(token);
         if (response.data.response !== 'error') {
+            toastShow("success", "Logged in successfully.");
             setTimeout(() => {
                 window.location.href = '/notes';
             }, 3000);
         }
-        toastShow("success", response.data.message);
         return response.data;
     } catch (err) {
         toastShow("error", err.response?.data.message || "An error occurred");

@@ -80,14 +80,14 @@ const LoginForm = () => {
                     />
 
                     <Grid container spacing={2}>
-                        <Grid  item xs={12} style={{ marginTop : "10px" }}>
-                            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                        <Grid  item xs={12} >
+                            <Button type="submit" fullWidth variant="contained" color="primary">
                                 Login
                             </Button>
                         </Grid>
 
                         <Grid  item xs={12}>
-                            <Link to="/signup" style={{ textDecoration: 'none' }}>
+                            <Link to="/">
                                 <Button type="button" variant="contained" color="primary" fullWidth>
                                     Sign up
                                 </Button>
