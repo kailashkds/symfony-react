@@ -20,7 +20,7 @@ class EmailService
         $request = $this->requestStack->getCurrentRequest();
         $confirmationUrl = $request->getSchemeAndHttpHost() . "/confirmation/" . $user->getConfirmationToken();
         $emailContent = "Click the following link to confirm your account: $confirmationUrl";
-        $senderEmailAddress = getenv('SENDER_EMAIL_ADDRESS');
+        $senderEmailAddress = $_ENV['SENDER_EMAIL_ADDRESS'];
         $email = (new Email())
             ->from($senderEmailAddress)
             ->to($user->getEmail())

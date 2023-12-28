@@ -12,7 +12,7 @@ const Routes = () => {
     // Define public routes accessible to all users
     const routesForPublic = [
         {
-            path: "/signup",
+            path: "/",
             element: <SignUpForm />,
         },
         {
@@ -35,7 +35,7 @@ const Routes = () => {
             path: "/login",
             element: <LoginForm/>,
         },{
-            path: "/signup",
+            path: "/",
             element: <SignUpForm />,
         },
         {
