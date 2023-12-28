@@ -36,7 +36,7 @@ export const loginUser = async (payload) => {
             toastShow("success", "Logged in successfully.");
             setTimeout(() => {
                 window.location.href = '/notes';
-            }, 3000);
+            }, 500);
         }
         return response.data;
     } catch (err) {
@@ -46,7 +46,7 @@ export const loginUser = async (payload) => {
 };
 
 
-export const logout = async (payload) => {
+export const logout = () => {
     localStorage.removeItem("token");
 }
 
@@ -71,9 +71,10 @@ export const getListOfNotes = async (token) => {
         toastShow(data.response, data.message);
 
         if (data.response === 'error') {
-            // setTimeout(() => {
+            logout();
+            setTimeout(() => {
                 window.location.href = '/login';
-            // }, );
+            }, 1000);
         }
 
         return data.data;

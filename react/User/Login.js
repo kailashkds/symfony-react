@@ -43,7 +43,7 @@ const LoginForm = () => {
             username: formData.email,
             password: formData.password,
         });
-        login(res)
+       
         navigate('/notes');
     };
 

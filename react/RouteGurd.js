@@ -5,6 +5,8 @@ import React from 'react';
 import LoginForm from "./User/Login";
 import SignUpForm from "./User/SignUpForm";
 import EmailConfirmation from "./User/EmailConfirmation";
+import ProtectedRoute from "./ProtectedRoute";
+import PrivateRoute from "./ProtectedRoute";
 
 
 const Routes = () => {
@@ -22,6 +24,10 @@ const Routes = () => {
         {
             path: "/confirmation/:token",
             element: <EmailConfirmation/>,
+        },
+        {
+            path: "/notes",
+            element: <PrivateRoute element={<Notes />} /> , // Wrap the component in ProtectedRoute
         }
     ];
 
@@ -29,7 +35,7 @@ const Routes = () => {
     const routesForAuthenticatedOnly = [
         {
             path: "/notes",
-            element: <Notes />, // Wrap the component in ProtectedRoute
+            element: <Notes /> ,
         },
         {
             path: "/login",

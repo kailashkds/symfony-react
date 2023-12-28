@@ -25,7 +25,7 @@ class NoteController extends AbstractController
     {
         $user = $this->getUser();
         if(! $user->getIsActive()){
-            return $this->json(['response' => 'error','data' => [], 'message' => "User is not activated yet"]);
+            return $this->json(['response' => 'error','data' => [], 'message' => "Your is not activated yet"]);
         }
         $allNotes = [];
         foreach ($notesRepository->findBy(['user' => $user]) as $note){
